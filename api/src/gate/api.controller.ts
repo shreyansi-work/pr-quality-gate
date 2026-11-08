@@ -45,7 +45,7 @@ const cleanDescription = (v: unknown): string => {
   return v.trim().slice(0, 5000);
 };
 const cleanSeverity = (v: unknown): 'HIGH' | 'MEDIUM' | 'LOW' => {
-  const s = String(v ?? '').toUpperCase();
+  const s = (typeof v === 'string' ? v : '').toUpperCase();
   if (s !== 'HIGH' && s !== 'MEDIUM' && s !== 'LOW') throw new BadRequestException('severity must be HIGH, MEDIUM or LOW');
   return s;
 };
@@ -259,7 +259,7 @@ export class ApiController {
   async create(@Body() body: CreateBody) {
     const pullRequestId = Number(body?.pullRequestId);
     if (!Number.isInteger(pullRequestId) || pullRequestId < 1 || pullRequestId > 2_147_483_647) throw new BadRequestException('pullRequestId must be a number');
-    const status = String(body?.status ?? 'ACCEPTED').toUpperCase();
+    const status = (typeof body?.status === 'string' ? body.status : 'ACCEPTED').toUpperCase();
     if (status !== 'ACCEPTED' && status !== 'HELD') throw new BadRequestException('status must be ACCEPTED or HELD');
     return this.triage.create({
       pullRequestId,

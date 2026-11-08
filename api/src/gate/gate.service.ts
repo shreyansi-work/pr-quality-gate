@@ -68,7 +68,7 @@ export class GateService {
         targetUrl: publicUrl ? `${publicUrl.replace(/\/$/, '')}/#/pr/${pr.id}` : undefined,
       });
     } catch (err) {
-      this.log.warn(`could not post status for PR ${pullRequestId}: ${err instanceof Error ? err.message : err}`);
+      this.log.warn(`could not post status for PR ${pullRequestId}: ${err instanceof Error ? err.message : String(err)}`);
     }
   }
 

@@ -29,7 +29,7 @@ Never read the held-out misses while you change the prompt.
 rate falls by more than 3 points or the false positive share rises by more than 5 points (change them with
 `GATE_MAX_DETECTION_DROP` and `GATE_MAX_FP_RISE`), when the suite version or split differs, or when a file could not be
 reviewed. With `EVAL_RUNS=3` it compares the means. After a change you accept, run `npm run eval:baseline` and commit
-`eval/baseline.json`. `.github/workflows/eval-gate.yml` runs the same steps on GitHub (needs a `GROQ_API_KEY` secret).
+`eval/baseline.json`.
 
 Each run writes `eval/results/<time>-<label>.json` and `.md`. The Markdown report has the numbers, the missed bugs with
 their likely cause, the false positives, and a comparison with the previous run in that folder.

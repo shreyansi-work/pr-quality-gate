@@ -1,4 +1,4 @@
-# Deployment (chunk 10)
+# Deployment
 
 Two ways. Pick Docker first, it is the same on your Mac and on a server.
 

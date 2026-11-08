@@ -1,26 +1,26 @@
-# Run guide: everything, in order
+# Setup and walkthrough
 
-Written by Claude. Only the pure logic (re-check rules, readiness) was run, by Claude, and the UI was opened in a browser with fake data. The rest has NOT been run against your database, Redis, Ollama or GitHub. Expect a few errors, paste them to me.
-Your rule: run it, read the code in the order in section 7, and explain it back (section 8) before you trust it.
+How to run the whole system locally and try each feature. Items marked "needs GitHub App" require the setup in `GITHUB_APP.md`; everything else works with local services only.
 
 All commands run from `api/` unless they say otherwise. Run `pwd` first.
 
 ## 1. Setup (once)
 
 ```bash
-npm install                      # nothing new was added since chunk 5
-rm src/app.controller.ts src/app.service.ts src/app.controller.spec.ts test/app.e2e-spec.ts   # leftovers from the Nest template
+npm install
+cp .env.example .env             # then edit it
 ```
 
 Add to `api/.env` (compare with `.env.example`; never commit `.env`):
 
 ```
-GITHUB_WEBHOOK_SECRET=change-me-local-webhook-secret
+GITHUB_WEBHOOK_SECRET=<a long random string>
 REDIS_HOST=localhost
 REDIS_PORT=6379
 OLLAMA_URL=http://localhost:11434
 OLLAMA_MODEL=qwen2.5-coder:7b
 REVIEW_VERIFY=true
+ENABLE_DEV_ROUTES=true            # local only: enables /dev/seed, /dev/review, /dev/recheck
 ```
 
 Start the services and update the database (new columns for tickets):
@@ -37,7 +37,7 @@ npm run start:dev
 Success looks like: "Found 0 errors", routes mapped (`/api/pulls`, `/api/tickets`, `/dev/seed` ...) and NO more "ECONNREFUSED" lines.
 Open http://localhost:3000 : you should see the page "Pull requests" (empty).
 
-## 2. Webhook smoke tests (chunk 1)
+## 2. Webhook smoke tests
 
 ```bash
 curl -s localhost:3000/health                                   # {"status":"ok","db":"up"}
@@ -60,8 +60,7 @@ git diff main > /tmp/bugs.diff
 curl -s -X POST localhost:3000/dev/review -H "Content-Type: text/plain" --data-binary @/tmp/bugs.diff | python3 -m json.tool
 ```
 
-Mark each kept finding useful / not useful. Your bar: at least 5 of 10 findings useful and at least 3 of 5 planted bugs found. Run it with `REVIEW_VERIFY=false` and `true` (restart between) and compare. Send me the numbers.
-This decides whether the AI review is good enough. Everything else in the project works the same either way.
+Mark each kept finding useful / not useful. This decides whether the AI review is good enough. Everything else in the project works the same either way.
 
 ## 4. Demo: triage, tickets and readiness (no GitHub, no AI needed for these steps)
 
@@ -125,27 +124,10 @@ npm run build
 | 8 | `gate/recheck.service.ts` | Applying the decision, asking the AI only for the hard case |
 | 9 | `gate/readiness.ts`, `gate/gate.service.ts` | Readiness is computed, then posted to GitHub as a status |
 | 10 | `gate/triage.service.ts`, `gate/api.controller.ts`, `gate/api-token.guard.ts` | Triage transitions, JSON API, token guard |
-| 11 | `public/app.js` | UI: only `textContent`, never HTML from the server |
+| 11 | `web/src/` | React UI: finding text is rendered as text, never as HTML |
 
-## 8. Explain-back (write short answers, then send them to me)
+## 8. Known limits
 
-Queue and review
-1. Two quick pushes on the same PR: what happens to the first run, step by step?
-2. What does `jobId: run-<id>` protect against, and what does the unique index on `(pullRequestId, headSha)` protect against?
-3. Why `concurrency: 1`? Why does the worker check `isStale` more than once?
-4. Why must a finding's quote exist in the diff, and what does the second pass add?
-5. Why is the fingerprint built from the quote and not the line number?
-
-Tickets and re-check
-6. A ticket's line was reworded but the bug is still there. Which branch of `judge` catches it, and what happens if Ollama is down at that moment?
-7. Why does `lineStillThere` compare whole lines and not use `includes`? (Hint: `await foo()` versus `foo()`.)
-8. Why is readiness computed every time and not stored in a column?
-9. Why does a failed status call to GitHub only log a warning and not throw?
-10. Why does the UI never use `innerHTML` for finding text?
-
-## 9. Honest limits
-
-- Not run by Claude: anything touching Postgres, Redis, Ollama or GitHub, the Docker build, the CI file.
 - A 7B local model gives uneven answers. The rest of the pipeline is built to cope (evidence check, second pass, "Needs a look") but it cannot make a weak model strong.
 - The re-check treats "the flagged line is gone" as fixed unless the function around it is still in the diff (then the AI decides). A fix that moves the problem to another line would be missed. That is the price of no extra AI calls.
 - v1 has one user. No login screen: set `API_TOKEN` on any server that is reachable from the internet.

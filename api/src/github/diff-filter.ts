@@ -16,7 +16,7 @@ export function isCodeFile(filename: string): boolean {
   const dot = base.lastIndexOf('.');
   const ext = dot >= 0 ? base.slice(dot).toLowerCase() : '';
   return (CODE_EXTENSIONS.has(ext) || CODE_BASENAMES.has(base)) && !LOCKFILES.has(base)
-    && !/(^|\/)(generated|__generated__|dist|node_modules)\//.test(filename) && !/^build\//.test(filename)
+    && !/(^|\/)(generated|__generated__|dist|node_modules)\//.test(filename) && !filename.startsWith('build/')
     && !/\.generated\./.test(base) && !/\.min\.(js|css)$/.test(base);
 }
 
@@ -62,7 +62,7 @@ export function filterFiles(
 
     if (LOCKFILES.has(base)) {
       skip(f.filename, 'Lockfile written by a package manager, no logic', 'the dependency audit');
-    } else if (/(^|\/)(generated|__generated__|dist|node_modules)\//.test(f.filename) || /^build\//.test(f.filename) || /\.generated\./.test(base)) {
+    } else if (/(^|\/)(generated|__generated__|dist|node_modules)\//.test(f.filename) || f.filename.startsWith('build/') || /\.generated\./.test(base)) {
       skip(f.filename, 'Generated file, a fix here would be overwritten', 'the source that generates it');
     } else if (/\.min\.(js|css)$/.test(base)) {
       skip(f.filename, 'Minified code', 'nothing, review the original source');
