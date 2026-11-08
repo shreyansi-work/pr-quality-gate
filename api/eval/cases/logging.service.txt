@@ -1,0 +1,40 @@
+import { Injectable, Logger } from '@nestjs/common';
+import { writeFile, appendFile } from 'node:fs/promises';
+import { writeFileSync } from 'node:fs';
+import { EventSink } from './event.sink.js';
+
+const SETTINGS_PATH = '/etc/app/settings.json';
+
+@Injectable()
+export class LoggingService {
+  private readonly log = new Logger(LoggingService.name);
+  private buffer: string[] = [];
+
+  constructor(private readonly sink: EventSink) {}
+
+  /** Add one line to the audit log. */
+  async record(logPath: string, line: string): Promise<void> {
+    await writeFile(logPath, `${line}\n`);
+  }
+
+  add(line: string): void {
+    this.buffer.push(line);
+  }
+
+  async flush(): Promise<void> {
+    try {
+      await this.sink.write(this.buffer);
+    } catch (err) {
+      this.log.error(`flush failed: ${(err as Error).message}`);
+    }
+    this.buffer = [];
+  }
+
+  saveSettings(settings: Record<string, unknown>): void {
+    writeFileSync(SETTINGS_PATH, JSON.stringify(settings));
+  }
+
+  async keep(path: string, line: string): Promise<void> {
+    await appendFile(path, `${line}\n`);
+  }
+}

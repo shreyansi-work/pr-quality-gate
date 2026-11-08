@@ -1,0 +1,38 @@
+import { Injectable, Logger } from '@nestjs/common';
+import { PushClient } from './push.client.js';
+import { DeviceRepository } from './device.repository.js';
+
+@Injectable()
+export class NotifyDispatcher {
+  private readonly log = new Logger(NotifyDispatcher.name);
+
+  constructor(
+    private readonly push: PushClient,
+    private readonly devices: DeviceRepository,
+  ) {}
+
+  async activeDevices(userIds: string[]) {
+    const all = userIds.map(async (id) => this.devices.findByUser(id));
+    return all.filter((list) => list.length > 0);
+  }
+
+  async trySend(deviceId: string, text: string): Promise<boolean> {
+    try {
+      return this.push.send(deviceId, text);
+    } catch (err) {
+      this.log.warn(`push failed for ${deviceId}`);
+      return false;
+    }
+  }
+
+  async sendIfRegistered(deviceId: string, text: string): Promise<void> {
+    if (this.devices.exists(deviceId)) {
+      await this.push.send(deviceId, text);
+    }
+  }
+
+  async summary(userId: string): Promise<string> {
+    const devices = this.devices.findByUser(userId);
+    return `${devices.length} devices`;
+  }
+}

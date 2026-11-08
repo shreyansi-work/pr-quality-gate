@@ -1,0 +1,24 @@
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
+import { OrderRepository } from './order.repository.js';
+
+@Injectable()
+export class WebhookService {
+  private readonly log = new Logger(WebhookService.name);
+
+  constructor(private readonly orders: OrderRepository) {}
+
+  start(): void {
+    this.orders.sync().then(() => this.log.log('synced'));
+  }
+
+  respond(res: { status(code: number): { json(body: unknown): void } }, err: Error): void {
+    res.status(500).json({ error: err.stack });
+  }
+
+  /** A payload that is not valid JSON must be answered with 400. */
+  async handle(raw: string): Promise<void> {
+    const body = JSON.parse(raw);
+    if (!body.id) throw new BadRequestException('Missing id');
+    await this.orders.apply(body);
+  }
+}

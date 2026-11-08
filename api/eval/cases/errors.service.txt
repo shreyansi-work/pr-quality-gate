@@ -1,0 +1,41 @@
+import { Injectable, Logger } from '@nestjs/common';
+import { OrderRepository } from './order.repository.js';
+import { PaymentGateway } from './payment.gateway.js';
+
+@Injectable()
+export class ErrorsService {
+  private readonly log = new Logger(ErrorsService.name);
+
+  constructor(
+    private readonly orders: OrderRepository,
+    private readonly gateway: PaymentGateway,
+  ) {}
+
+  async find(id: string) {
+    const order = await this.orders.findById(id);
+    if (!order) {
+      throw 'Order not found';
+    }
+    return order;
+  }
+
+  async load(id: string) {
+    try {
+      return await this.orders.findById(id);
+    } finally {
+      return null;
+    }
+  }
+
+  async pay(id: string, amount: number): Promise<void> {
+    try {
+      await this.gateway.charge(id, amount);
+    } catch (cause) {
+      throw new Error('Payment failed');
+    }
+  }
+
+  install(): void {
+    process.on('uncaughtException', () => {});
+  }
+}

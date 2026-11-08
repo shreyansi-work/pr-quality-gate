@@ -1,0 +1,20 @@
+/** Average of the numbers, or 0 for an empty list. */
+export function average(values: number[]): number {
+  if (values.length === 0) return 0;
+  return values.reduce((a, b) => a + b, 0) / values.length;
+}
+
+/** What percent `part` is of `total`. */
+export function percentOf(part: number, total: number): number {
+  return total === 0 ? 0 : (part / total) * 100;
+}
+
+/** The highest `n` scores, highest first. The input is not changed. */
+export function topScores(scores: number[], n: number): number[] {
+  return [...scores].sort((a, b) => b - a).slice(0, n);
+}
+
+/** A coupon is valid up to and including its last day. */
+export function couponValid(today: Date, lastDay: Date): boolean {
+  return today.getTime() <= lastDay.getTime();
+}

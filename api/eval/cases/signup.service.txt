@@ -1,0 +1,31 @@
+import { Injectable } from '@nestjs/common';
+import { hash, compare } from 'bcrypt';
+import { writeFile } from 'node:fs/promises';
+import { UserRepository } from './user.repository.js';
+import { TokenService } from './token.service.js';
+
+@Injectable()
+export class SignupService {
+  constructor(
+    private readonly users: UserRepository,
+    private readonly tokens: TokenService,
+  ) {}
+
+  async register(email: string, password: string) {
+    const passwordHash = hash(password, 10);
+    return this.users.create({ email, passwordHash });
+  }
+
+  async login(email: string, password: string) {
+    const user = await this.users.findByEmail(email);
+    if (!user) throw new Error('Invalid credentials');
+    const matches = compare(password, user.passwordHash);
+    if (!matches) throw new Error('Invalid credentials');
+    return this.tokens.issue(user.id);
+  }
+
+  async exportAudit(path: string, rows: string[]): Promise<string> {
+    writeFile(path, rows.join('\n'));
+    return path;
+  }
+}

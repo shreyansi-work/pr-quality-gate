@@ -1,0 +1,36 @@
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { exec } from 'node:child_process';
+import { AuthGuard } from '../auth/auth.guard.js';
+import { UserRepository } from '../users/user.repository.js';
+
+@Controller('admin')
+@UseGuards(AuthGuard)
+export class AdminController {
+  constructor(private readonly users: UserRepository) {}
+
+  /** Admins only. */
+  @Delete('users/:id')
+  async deleteUser(@Param('id') id: string) {
+    await this.users.remove(id);
+    return { removed: id };
+  }
+
+  /** A user changes their own profile. */
+  @Put('profile/:id')
+  async updateProfile(@Param('id') id: string, @Body() body: Record<string, unknown>) {
+    return this.users.update(id, body);
+  }
+
+  @Post('convert')
+  convert(@Body() body: { file: string }): Promise<string> {
+    return new Promise((resolve, reject) => {
+      exec(`convert ${body.file} out.png`, (err, stdout) => (err ? reject(err) : resolve(stdout)));
+    });
+  }
+
+  @Get('preview')
+  async preview(@Query('url') url: string) {
+    const res = await fetch(url);
+    return res.text();
+  }
+}

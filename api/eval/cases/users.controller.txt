@@ -1,0 +1,31 @@
+import { Controller, Get, Param, Post } from '@nestjs/common';
+import { UserRepository } from './user.repository.js';
+
+interface UserResponse {
+  id: string;
+  userName: string;
+  email: string;
+}
+
+@Controller('users')
+export class UsersController {
+  constructor(private readonly users: UserRepository) {}
+
+  /** Returns the user. Responds 404 when the user does not exist. */
+  @Get(':id')
+  async getUser(@Param('id') id: string): Promise<UserResponse | { error: string }> {
+    const user = await this.users.findById(id);
+    if (!user) {
+      return { error: 'User not found' };
+    }
+    return { id: user.id, user_name: user.name, email: user.email } as unknown as UserResponse;
+  }
+
+  /** Verifies the address with the mail provider. */
+  @Post(':id/verify')
+  async verify(@Param('id') id: string) {
+    const res = await fetch(`https://mail.example.com/api/v1/verify/${id}`, { method: 'POST' });
+    const body = await res.json();
+    return { verified: body.valid };
+  }
+}

@@ -1,0 +1,33 @@
+import { Controller, Get, Post, Body, Query, HttpCode } from '@nestjs/common';
+import { OrderRepository } from './order.repository.js';
+
+interface OrderDto {
+  id: string;
+  amount: number;
+  createdAt: string;
+}
+
+interface Page<T> {
+  items: T[];
+  total: number;
+}
+
+@Controller('orders')
+export class OrdersApi {
+  constructor(private readonly orders: OrderRepository) {}
+
+  /** Creates an order. Responds 201. */
+  @Post()
+  @HttpCode(200)
+  async create(@Body() body: { amount: number }): Promise<OrderDto> {
+    const order = await this.orders.create(body.amount);
+    return { id: order.id, amount: order.total.toFixed(2) as unknown as number, createdAt: order.createdAt };
+  }
+
+  /** Lists orders, newest first. */
+  @Get()
+  async list(@Query('limit') limit = '20'): Promise<Page<OrderDto>> {
+    const items = await this.orders.list({ limit: Number(limit), orderBy: { createdAt: 'asc' } });
+    return { items } as Page<OrderDto>;
+  }
+}

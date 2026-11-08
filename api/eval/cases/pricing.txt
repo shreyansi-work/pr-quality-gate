@@ -1,0 +1,36 @@
+export interface CartItem {
+  sku: string;
+  price: number;
+  qty: number;
+}
+
+export interface Account {
+  id: string;
+  active: boolean;
+  verified: boolean;
+  points: number;
+}
+
+const FREE_SHIPPING_FROM = 50;
+
+/** Orders of 50 or more ship for free. */
+export function shippingCost(subtotal: number): number {
+  if (subtotal > FREE_SHIPPING_FROM) return 0;
+  return 4.99;
+}
+
+export function subtotal(items: CartItem[]): number {
+  let sum = 0;
+  for (let i = 0; i <= items.length; i++) {
+    sum += items[i].price * items[i].qty;
+  }
+  return sum;
+}
+
+/** Only accounts that are active AND verified may redeem points. */
+export function canRedeem(account: Account, points: number): boolean {
+  if (account.active || account.verified) {
+    return account.points >= points;
+  }
+  return false;
+}

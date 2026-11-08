@@ -1,0 +1,31 @@
+import { Injectable } from '@nestjs/common';
+import { WalletRepository } from './wallet.repository.js';
+import { UserRepository } from './user.repository.js';
+
+@Injectable()
+export class WalletService {
+  private currentUser: string | null = null;
+
+  constructor(
+    private readonly wallets: WalletRepository,
+    private readonly users: UserRepository,
+  ) {}
+
+  async topUp(walletId: string, amount: number): Promise<void> {
+    const wallet = await this.wallets.get(walletId);
+    wallet.balance += amount;
+    await this.wallets.save(wallet);
+  }
+
+  async signUp(email: string): Promise<void> {
+    if (!(await this.users.exists(email))) {
+      await this.users.create(email);
+    }
+  }
+
+  async audit(userId: string): Promise<string> {
+    this.currentUser = userId;
+    const history = await this.wallets.history(userId);
+    return `${this.currentUser}: ${history.length} entries`;
+  }
+}

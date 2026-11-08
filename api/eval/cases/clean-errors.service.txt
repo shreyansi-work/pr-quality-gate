@@ -1,0 +1,39 @@
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { OrderRepository } from './order.repository.js';
+import { PaymentGateway } from './payment.gateway.js';
+
+@Injectable()
+export class SafeErrorsService {
+  private readonly log = new Logger(SafeErrorsService.name);
+
+  constructor(
+    private readonly orders: OrderRepository,
+    private readonly gateway: PaymentGateway,
+  ) {}
+
+  async find(id: string) {
+    const order = await this.orders.findById(id);
+    if (!order) throw new NotFoundException(`Order ${id} not found`);
+    return order;
+  }
+
+  async pay(id: string, amount: number): Promise<void> {
+    try {
+      await this.gateway.charge(id, amount);
+    } catch (cause) {
+      this.log.error(`charge failed for ${id}`);
+      throw new Error('Payment failed', { cause });
+    }
+  }
+
+  async handle(raw: string): Promise<void> {
+    let body: { id?: string };
+    try {
+      body = JSON.parse(raw) as { id?: string };
+    } catch {
+      throw new BadRequestException('Body is not valid JSON');
+    }
+    if (!body.id) throw new BadRequestException('Missing id');
+    await this.orders.apply(body);
+  }
+}

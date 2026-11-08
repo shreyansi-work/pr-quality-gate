@@ -1,0 +1,40 @@
+import { Injectable, Logger } from '@nestjs/common';
+import { EventEmitter } from 'node:events';
+import { readFile } from 'node:fs/promises';
+import { OrderRepository } from '../orders/order.repository.js';
+
+@Injectable()
+export class SyncService {
+  private readonly log = new Logger(SyncService.name);
+
+  constructor(
+    private readonly repo: OrderRepository,
+    private readonly bus: EventEmitter,
+  ) {}
+
+  async loadConfig(path: string): Promise<Record<string, string>> {
+    try {
+      return JSON.parse(await readFile(path, 'utf8'));
+    } catch (e) {
+    }
+    return {};
+  }
+
+  async pushOrder(orderId: string): Promise<boolean> {
+    try {
+      const order = await this.repo.findById(orderId);
+      await this.repo.sendToWarehouse(order);
+      return true;
+    } catch (err) {
+      this.log.error(err);
+      return true;
+    }
+  }
+
+  start(): void {
+    this.bus.on('order.created', async (raw: string) => {
+      const data = JSON.parse(raw);
+      await this.repo.sendToWarehouse(data);
+    });
+  }
+}

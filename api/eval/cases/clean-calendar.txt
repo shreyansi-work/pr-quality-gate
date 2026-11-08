@@ -1,0 +1,26 @@
+/** month is 1 to 12. Returns the first day of that month. */
+export function firstDay(year: number, month: number): Date {
+  return new Date(year, month - 1, 1);
+}
+
+/** month is 1 to 12. */
+export function daysInMonth(year: number, month: number): number {
+  return new Date(year, month, 0).getDate();
+}
+
+/** True when version a is newer than version b, for example 1.10.0 is newer than 1.9.0. */
+export function isNewer(a: string, b: string): boolean {
+  const left = a.split('.').map(Number);
+  const right = b.split('.').map(Number);
+  for (let i = 0; i < Math.max(left.length, right.length); i++) {
+    const x = left[i] ?? 0;
+    const y = right[i] ?? 0;
+    if (x !== y) return x > y;
+  }
+  return false;
+}
+
+/** How many pages `total` items need when each page holds `pageSize`. */
+export function pageCount(total: number, pageSize: number): number {
+  return Math.ceil(total / pageSize);
+}

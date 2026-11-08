@@ -1,0 +1,34 @@
+import { Injectable } from '@nestjs/common';
+import { EventEmitter } from 'node:events';
+import { ApiClient } from './api.client.js';
+
+@Injectable()
+export class PollerService {
+  private readonly cache = new Map<string, string>();
+
+  constructor(
+    private readonly bus: EventEmitter,
+    private readonly api: ApiClient,
+  ) {}
+
+  start(): void {
+    setInterval(() => void this.poll(), 1000);
+  }
+
+  watch(topic: string, handler: (message: string) => void): void {
+    this.bus.on(topic, handler);
+  }
+
+  async lookup(key: string): Promise<string> {
+    const hit = this.cache.get(key);
+    if (hit) return hit;
+    const value = await this.api.fetchValue(key);
+    this.cache.set(key, value);
+    return value;
+  }
+
+  private async poll(): Promise<void> {
+    const changes = await this.api.changes();
+    for (const change of changes) this.bus.emit(change.topic, change.body);
+  }
+}

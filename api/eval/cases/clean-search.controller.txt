@@ -1,0 +1,25 @@
+import { BadRequestException, Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { ReportRepository } from './report.repository.js';
+
+const MAX_IDS = 100;
+
+@Controller('lookup')
+export class LookupController {
+  constructor(private readonly reports: ReportRepository) {}
+
+  @Get('since')
+  async since(@Query('from') from: string) {
+    const date = new Date(from);
+    if (Number.isNaN(date.getTime())) throw new BadRequestException('from must be a date');
+    return this.reports.createdAfter(date);
+  }
+
+  @Post('batch')
+  async batch(@Body() body: { ids: unknown }) {
+    if (!Array.isArray(body.ids) || body.ids.length === 0 || body.ids.length > MAX_IDS) {
+      throw new BadRequestException(`ids must be a list of 1 to ${MAX_IDS}`);
+    }
+    if (!body.ids.every((id) => typeof id === 'string')) throw new BadRequestException('ids must be strings');
+    return this.reports.findMany(body.ids as string[]);
+  }
+}

@@ -1,0 +1,20 @@
+import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
+import { Database } from '../db/database.js';
+
+const MAX_PAGE_SIZE = 100;
+
+@Controller('items')
+export class ListController {
+  constructor(private readonly db: Database) {}
+
+  @Get()
+  async list(@Query('limit') limit = '20', @Query('offset') offset = '0') {
+    const take = Number.parseInt(limit, 10);
+    const skip = Number.parseInt(offset, 10);
+    if (!Number.isInteger(take) || take < 1 || take > MAX_PAGE_SIZE) {
+      throw new BadRequestException(`limit must be between 1 and ${MAX_PAGE_SIZE}`);
+    }
+    if (!Number.isInteger(skip) || skip < 0) throw new BadRequestException('offset must be 0 or more');
+    return this.db.query('SELECT id, name FROM items ORDER BY id LIMIT $1 OFFSET $2', [take, skip]);
+  }
+}

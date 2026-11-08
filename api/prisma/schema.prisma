@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  githubLogin String   @unique
+  repos       Repo[]
+  createdAt   DateTime @default(now())
+}
+
+enum RunStatus {
+  QUEUED
+  RUNNING
+  DONE
+  FAILED
+  SKIPPED
+}
+
+enum FindingSource {
+  CHECK
+  AI
+  RULE
+  MANUAL // a ticket you created by hand
+}
+
+enum Severity {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum FindingStatus {
+  NEW
+  ACCEPTED
+  HELD
+  REJECTED
+  GONE // the problem disappeared before you triaged it
+}
+
+// Life of a ticket (a finding you accepted or put on hold).
+enum TicketState {
+  OPEN
+  NEEDS_LOOK // the re-check was unsure
+  FIXED_AUTO
+  FIXED_MANUAL
+  CLOSED_PR // closed because the pull request was merged or closed
+}
+
+model Repo {
+  id             Int           @id @default(autoincrement())
+  githubRepoId   BigInt        @unique
+  installationId Int?
+  fullName       String
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  pullRequests PullRequest[]
+  createdAt    DateTime      @default(now())
+}
+
+model PullRequest {
+  id         Int      @id @default(autoincrement())
+  repoId     Int
+  repo       Repo     @relation(fields: [repoId], references: [id])
+  number     Int
+  title      String
+  author     String
+  headBranch String
+  headSha    String
+  state      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  runs       PrRun[]
+  findings   Finding[]
+
+  @@unique([repoId, number])
+}
+
+// One review run per push (per commit) of a pull request.
+model PrRun {
+  id            Int         @id @default(autoincrement())
+  pullRequestId Int
+  pullRequest   PullRequest @relation(fields: [pullRequestId], references: [id])
+  headSha       String
+  status        RunStatus   @default(QUEUED)
+  model         String?
+  changedFiles  Json?
+  skippedFiles  Json?
+  ciSummary     Json?
+  error         String?
+  startedAt     DateTime?
+  finishedAt    DateTime?
+  createdAt     DateTime    @default(now())
+  findings      Finding[]
+
+  @@unique([pullRequestId, headSha])
+}
+
+// An issue found in a pull request. Identity = fingerprint, not line number.
+model Finding {
+  id            Int           @id @default(autoincrement())
+  pullRequestId Int
+  pullRequest   PullRequest   @relation(fields: [pullRequestId], references: [id])
+  firstRunId    Int?
+  firstRun      PrRun?        @relation(fields: [firstRunId], references: [id])
+  lastSeenRunId Int?
+  fingerprint   String
+  source        FindingSource
+  category      String
+  severity      Severity
+  file          String
+  functionName  String?
+  quote         String
+  message       String
+  suggestedFix  String?
+  confidence    String?
+  status        FindingStatus @default(NEW)
+  rejectReason  String?
+  title         String? // your own title; empty means use the category
+  description   String? // your own description; empty means use the AI message
+  ticketState   TicketState?
+  triagedAt     DateTime?
+  closedAt      DateTime?
+  closeReason   String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  events        TicketEvent[]
+
+  @@unique([pullRequestId, fingerprint])
+  @@index([pullRequestId, status])
+}
+
+// The history of a ticket: who did what, and which commit it happened on.
+model TicketEvent {
+  id        Int      @id @default(autoincrement())
+  findingId Int
+  finding   Finding  @relation(fields: [findingId], references: [id], onDelete: Cascade)
+  type      String // FOUND, ACCEPTED, HELD, REJECTED, FIXED, REOPENED, EDITED, CREATED, AUTO_CLOSED, NEEDS_LOOK, AUTO_REOPENED, PR_CLOSED, PR_REOPENED
+  message   String
+  actor     String // "system" (automation) or "you"
+  commitSha String?
+  createdAt DateTime @default(now())
+
+  @@index([findingId, createdAt])
+}

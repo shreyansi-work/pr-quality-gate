@@ -1,0 +1,23 @@
+# dependencies and build output
+node_modules/
+dist/
+*.tsbuildinfo
+api/public/
+
+# secrets - never commit
+.env
+.env.*
+!.env.example
+*.pem
+api/secrets/
+
+# local / OS / editor / AI-tool files
+.DS_Store
+backups/
+logs/
+coverage/
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
+api/eval/results/

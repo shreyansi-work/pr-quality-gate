@@ -1,0 +1,36 @@
+import { Injectable, OnModuleDestroy } from '@nestjs/common';
+import { EventEmitter } from 'node:events';
+
+const MAX_ENTRIES = 500;
+
+@Injectable()
+export class WatcherService implements OnModuleDestroy {
+  private timer: NodeJS.Timeout | null = null;
+  private readonly cache = new Map<string, string>();
+  private readonly subscriptions: Array<() => void> = [];
+
+  constructor(private readonly bus: EventEmitter) {}
+
+  start(): void {
+    if (this.timer) return;
+    this.timer = setInterval(() => this.bus.emit('tick'), 1000);
+  }
+
+  watch(topic: string, handler: (message: string) => void): void {
+    this.bus.on(topic, handler);
+    this.subscriptions.push(() => this.bus.off(topic, handler));
+  }
+
+  remember(key: string, value: string): void {
+    if (this.cache.size >= MAX_ENTRIES) {
+      const oldest = this.cache.keys().next().value as string;
+      this.cache.delete(oldest);
+    }
+    this.cache.set(key, value);
+  }
+
+  onModuleDestroy(): void {
+    if (this.timer) clearInterval(this.timer);
+    for (const stop of this.subscriptions) stop();
+  }
+}

@@ -1,0 +1,29 @@
+import { Injectable } from '@nestjs/common';
+import { rm } from 'node:fs/promises';
+import { join, resolve, sep } from 'node:path';
+import { PrismaClient } from '@prisma/client';
+
+const EXPORT_DIR = resolve('/var/app/exports');
+
+@Injectable()
+export class SafeArchiveService {
+  constructor(private readonly prisma: PrismaClient) {}
+
+  /** Archive the orders of one customer. */
+  async archiveCustomer(customerId: string): Promise<number> {
+    const res = await this.prisma.order.updateMany({ where: { customerId }, data: { archived: true } });
+    return res.count;
+  }
+
+  /** Invoices must be kept for seven years, so a removed invoice is only marked void. */
+  async voidInvoice(invoiceId: string): Promise<void> {
+    await this.prisma.invoice.update({ where: { id: invoiceId }, data: { voidedAt: new Date() } });
+  }
+
+  /** Delete the export folder of one report. */
+  async clearExport(reportName: string): Promise<void> {
+    const target = resolve(EXPORT_DIR, reportName);
+    if (!reportName || !target.startsWith(EXPORT_DIR + sep)) throw new Error('Invalid report name');
+    await rm(target, { recursive: true, force: true });
+  }
+}

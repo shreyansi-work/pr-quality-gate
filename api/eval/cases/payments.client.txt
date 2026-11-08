@@ -1,0 +1,32 @@
+import { Injectable } from '@nestjs/common';
+
+const BASE = 'https://pay.example.com/v2';
+
+@Injectable()
+export class PaymentsClient {
+  constructor(private readonly token: string) {}
+
+  /** Charges a card. The provider needs a Bearer token and answers within 5 seconds. */
+  async charge(cardId: string, amount: number): Promise<{ id: string }> {
+    const res = await fetch(`${BASE}/charges`, {
+      method: 'POST',
+      headers: { Authorization: `token ${this.token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cardId, amount }),
+    });
+    return (await res.json()) as { id: string };
+  }
+
+  /** Sends the delivery webhook. The caller must not wait longer than 5 seconds. */
+  async notify(url: string, payload: unknown): Promise<void> {
+    await fetch(url, { method: 'POST', body: JSON.stringify(payload) });
+  }
+
+  /** The provider replaces a refund with PUT. */
+  async updateRefund(refundId: string, amount: number): Promise<void> {
+    await fetch(`${BASE}/refunds/${refundId}`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${this.token}` },
+      body: JSON.stringify({ amount }),
+    });
+  }
+}

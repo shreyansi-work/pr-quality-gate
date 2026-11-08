@@ -1,0 +1,23 @@
+import { Injectable } from '@nestjs/common';
+import { hash, compare } from 'bcrypt';
+import { UserRepository } from './user.repository.js';
+import { TokenService } from './token.service.js';
+
+@Injectable()
+export class AccountsService {
+  constructor(
+    private readonly users: UserRepository,
+    private readonly tokens: TokenService,
+  ) {}
+
+  async register(email: string, password: string) {
+    const passwordHash = await hash(password, 10);
+    return this.users.create({ email, passwordHash });
+  }
+
+  async login(email: string, password: string) {
+    const user = await this.users.findByEmail(email);
+    if (!user || !(await compare(password, user.passwordHash))) throw new Error('Invalid credentials');
+    return this.tokens.issue(user.id);
+  }
+}

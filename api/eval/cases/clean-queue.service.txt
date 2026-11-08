@@ -1,0 +1,30 @@
+import { Injectable, Logger } from '@nestjs/common';
+import { EventEmitter } from 'node:events';
+import { JobRepository } from './job.repository.js';
+
+@Injectable()
+export class QueueService {
+  private readonly log = new Logger(QueueService.name);
+
+  constructor(
+    private readonly jobs: JobRepository,
+    private readonly bus: EventEmitter,
+  ) {}
+
+  start(): void {
+    this.bus.on('job.created', (raw: string) => {
+      void this.handle(raw).catch((err) => this.log.error(`job failed: ${(err as Error).message}`));
+    });
+  }
+
+  private async handle(raw: string): Promise<void> {
+    let data: { id: string };
+    try {
+      data = JSON.parse(raw) as { id: string };
+    } catch {
+      this.log.warn('ignored a message that is not valid JSON');
+      return;
+    }
+    await this.jobs.run(data.id);
+  }
+}

@@ -1,0 +1,38 @@
+# Production-like stack: API + Postgres + Redis. Ollama is NOT included (see docs/DEPLOY.md).
+# Run from this folder:  docker compose -f docker-compose.prod.yml --env-file api/.env.production up -d --build
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: prgate
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in api/.env.production}
+      POSTGRES_DB: prgate
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U prgate -d prgate"]
+      interval: 5s
+      retries: 10
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: ["redisdata:/data"]
+  api:
+    build: ./api
+    restart: unless-stopped
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_started }
+    env_file: api/.env.production
+    environment:
+      DATABASE_URL: postgres://prgate:${POSTGRES_PASSWORD}@postgres:5432/prgate
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      GITHUB_APP_PRIVATE_KEY_PATH: /app/secrets/github-app.pem
+    volumes: ["./api/secrets:/app/secrets:ro"]
+    extra_hosts: ["host.docker.internal:host-gateway"] # lets the container reach Ollama running on the host
+    ports: ["127.0.0.1:3000:3000"] # only Nginx on the same machine can reach it
+volumes:
+  pgdata:
+  redisdata:

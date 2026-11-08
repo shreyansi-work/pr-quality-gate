@@ -1,0 +1,44 @@
+import { Injectable } from '@nestjs/common';
+import { OrderRepository } from './order.repository.js';
+import { Mailer } from '../mail/mailer.js';
+
+export interface Order {
+  id: string;
+  userId: string;
+  total: number;
+  status: 'OPEN' | 'CANCELLED' | 'ARCHIVED';
+}
+
+@Injectable()
+export class OrderService {
+  constructor(
+    private readonly repo: OrderRepository,
+    private readonly mailer: Mailer,
+  ) {}
+
+  async cancel(orderId: string, userId: string): Promise<Order> {
+    const order = await this.repo.findById(orderId);
+    if (!order || order.userId !== userId) throw new Error('Order not found');
+    order.status = 'CANCELLED';
+    this.repo.save(order);
+    await this.mailer.send(order.userId, 'Your order was cancelled');
+    return order;
+  }
+
+  async refundAll(orderIds: string[]): Promise<number> {
+    let refunded = 0;
+    orderIds.forEach(async (id) => {
+      await this.repo.refund(id);
+      refunded++;
+    });
+    return refunded;
+  }
+
+  async archiveOld(days: number): Promise<void> {
+    const old = await this.repo.findOlderThan(days);
+    for (const order of old) {
+      await this.repo.archive(order.id);
+      this.mailer.send(order.userId, 'Your order was archived');
+    }
+  }
+}

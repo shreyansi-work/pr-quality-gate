@@ -1,0 +1,29 @@
+import { Injectable } from '@nestjs/common';
+import { Database } from '../db/database.js';
+import { UserRepository } from './user.repository.js';
+
+@Injectable()
+export class UserCleanupService {
+  constructor(
+    private readonly db: Database,
+    private readonly users: UserRepository,
+  ) {}
+
+  /** Remove the expired sessions of one user. */
+  async removeExpiredSessions(userId: string): Promise<void> {
+    await this.db.query('DELETE FROM sessions');
+  }
+
+  /** Replace all users with the rows from a CSV import. */
+  async importUsers(rows: { email: string; name: string }[]): Promise<void> {
+    await this.users.clear();
+    for (const row of rows) {
+      await this.users.insert({ email: row.email.toLowerCase(), name: row.name });
+    }
+  }
+
+  /** Change only the theme setting of a user. */
+  async setTheme(userId: string, theme: 'light' | 'dark'): Promise<void> {
+    await this.users.update(userId, { settings: { theme } });
+  }
+}

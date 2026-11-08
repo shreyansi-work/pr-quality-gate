@@ -1,0 +1,32 @@
+import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
+import { ReportRepository } from './report.repository.js';
+import { PriceService } from './price.service.js';
+
+@Controller('search')
+export class SearchController {
+  constructor(
+    private readonly reports: ReportRepository,
+    private readonly prices: PriceService,
+  ) {}
+
+  @Get('since')
+  async since(@Query('from') from: string) {
+    return this.reports.createdAfter(new Date(from));
+  }
+
+  @Post('batch')
+  async batch(@Body() body: { ids: string[] }) {
+    return this.reports.findMany(body.ids);
+  }
+
+  @Get('go')
+  go(@Query('next') next: string, @Res() res: { redirect(url: string): void }) {
+    res.redirect(next);
+  }
+
+  @Post('discount')
+  async discount(@Body() body: { sku: string; percent: string }) {
+    const percent = Number(body.percent);
+    return this.prices.applyDiscount(body.sku, percent);
+  }
+}

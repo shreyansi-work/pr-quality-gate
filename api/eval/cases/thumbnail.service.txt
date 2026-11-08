@@ -1,0 +1,40 @@
+import { Injectable } from '@nestjs/common';
+import Redis from 'ioredis';
+import { mkdtemp, open, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { Worker } from 'node:worker_threads';
+
+@Injectable()
+export class ThumbnailService {
+  async make(image: Buffer): Promise<Buffer> {
+    const dir = await mkdtemp(join(tmpdir(), 'thumb-'));
+    const input = join(dir, 'in.png');
+    await writeFile(input, image);
+    return this.resize(input);
+  }
+
+  async counter(name: string): Promise<number> {
+    const redis = new Redis(process.env.REDIS_URL as string);
+    const value = await redis.incr(name);
+    return value;
+  }
+
+  async crunch(data: number[]): Promise<number> {
+    const worker = new Worker('./crunch.js', { workerData: data });
+    return new Promise((resolve) => worker.on('message', resolve));
+  }
+
+  async readSmall(path: string): Promise<string> {
+    const file = await open(path, 'r');
+    const info = await file.stat();
+    if (info.size > 1_000_000) throw new Error('File too large');
+    const text = await file.readFile('utf8');
+    await file.close();
+    return text;
+  }
+
+  private async resize(path: string): Promise<Buffer> {
+    return Buffer.from(path);
+  }
+}

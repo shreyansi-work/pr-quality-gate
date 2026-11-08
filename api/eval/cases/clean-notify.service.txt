@@ -1,0 +1,25 @@
+import { Injectable } from '@nestjs/common';
+import { Mailer } from '../mail/mailer.js';
+import { UserRepository } from '../users/user.repository.js';
+
+@Injectable()
+export class NotifyService {
+  constructor(
+    private readonly users: UserRepository,
+    private readonly mailer: Mailer,
+  ) {}
+
+  async notifyAll(userIds: string[], text: string): Promise<number> {
+    const users = await Promise.all(userIds.map((id) => this.users.findById(id)));
+    const known = users.filter((u): u is NonNullable<typeof u> => u !== null);
+    await Promise.all(known.map((u) => this.mailer.send(u.email, text)));
+    return known.length;
+  }
+
+  async notifyOne(userId: string, text: string): Promise<boolean> {
+    const user = await this.users.findById(userId);
+    if (!user) return false;
+    await this.mailer.send(user.email, text);
+    return true;
+  }
+}

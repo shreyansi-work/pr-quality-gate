@@ -1,0 +1,31 @@
+import { Pool } from 'pg';
+import { open } from 'node:fs/promises';
+
+export class ReportService {
+  constructor(private readonly pool: Pool) {}
+
+  async totalsByUser(): Promise<Record<string, number>> {
+    const client = await this.pool.connect();
+    const res = await client.query('SELECT user_id, SUM(total) AS total FROM orders GROUP BY user_id');
+    const out: Record<string, number> = {};
+    for (const row of res.rows) out[row.user_id] = Number(row.total);
+    return out;
+  }
+
+  async exportCsv(since: Date): Promise<string[]> {
+    const conn = await this.pool.connect();
+    try {
+      const res = await conn.query('SELECT id, total FROM orders WHERE created_at > $1', [since]);
+      conn.release();
+      return res.rows.map((r) => `${r.id},${r.total}`);
+    } catch (err) {
+      throw new Error(`export failed: ${(err as Error).message}`);
+    }
+  }
+
+  async readHeader(path: string): Promise<string> {
+    const fh = await open(path, 'r');
+    const { buffer } = await fh.read(Buffer.alloc(64), 0, 64, 0);
+    return buffer.toString('utf8').trim();
+  }
+}

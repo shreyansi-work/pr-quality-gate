@@ -1,0 +1,1107 @@
+{
+  "version": 2,
+  "files": [
+    {
+      "path": "src/orders/order.service.ts",
+      "source": "cases/order.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/reports/report.service.ts",
+      "source": "cases/report.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/billing/pricing.ts",
+      "source": "cases/pricing.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/stock/stock.service.ts",
+      "source": "cases/stock.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/users/user-cleanup.service.ts",
+      "source": "cases/user-cleanup.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/files/files.controller.ts",
+      "source": "cases/files.controller.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/cart/cart.controller.ts",
+      "source": "cases/cart.controller.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/payments/payment.service.ts",
+      "source": "cases/payment.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/sync/sync.service.ts",
+      "source": "cases/sync.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/users/users.controller.ts",
+      "source": "cases/users.controller.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/notify/notify.service.ts",
+      "source": "cases/clean-notify.service.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/stats/stats.service.ts",
+      "source": "cases/clean-stats.service.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/billing/discount.ts",
+      "source": "cases/clean-discount.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/downloads/download.controller.ts",
+      "source": "cases/clean-download.controller.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/payments/transfer.service.ts",
+      "source": "cases/clean-transfer.service.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/items/list.controller.ts",
+      "source": "cases/clean-list.controller.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/queue/queue.service.ts",
+      "source": "cases/clean-queue.service.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/counters/counter.service.ts",
+      "source": "cases/clean-counter.service.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/notify/notify.dispatcher.ts",
+      "source": "cases/notify.dispatcher.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/auth/signup.service.ts",
+      "source": "cases/signup.service.txt",
+      "clean": false,
+      "split": "holdout"
+    },
+    {
+      "path": "src/poller/poller.service.ts",
+      "source": "cases/poller.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/media/thumbnail.service.ts",
+      "source": "cases/thumbnail.service.txt",
+      "clean": false,
+      "split": "holdout"
+    },
+    {
+      "path": "src/math/stats.ts",
+      "source": "cases/stats.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/math/calendar.ts",
+      "source": "cases/calendar.txt",
+      "clean": false,
+      "split": "holdout"
+    },
+    {
+      "path": "src/wallet/wallet.service.ts",
+      "source": "cases/wallet.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/jobs/batch.service.ts",
+      "source": "cases/batch.service.txt",
+      "clean": false,
+      "split": "holdout"
+    },
+    {
+      "path": "src/archive/archive.service.ts",
+      "source": "cases/archive.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/logging/logging.service.ts",
+      "source": "cases/logging.service.txt",
+      "clean": false,
+      "split": "holdout"
+    },
+    {
+      "path": "src/auth/auth.service.ts",
+      "source": "cases/auth.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/admin/admin.controller.ts",
+      "source": "cases/admin.controller.txt",
+      "clean": false,
+      "split": "holdout"
+    },
+    {
+      "path": "src/profile/profile.controller.ts",
+      "source": "cases/profile.controller.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/search/search.controller.ts",
+      "source": "cases/search.controller.txt",
+      "clean": false,
+      "split": "holdout"
+    },
+    {
+      "path": "src/events/event.repository.ts",
+      "source": "cases/event.repository.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/ledger/ledger.repository.ts",
+      "source": "cases/ledger.repository.txt",
+      "clean": false,
+      "split": "holdout"
+    },
+    {
+      "path": "src/errors/errors.service.ts",
+      "source": "cases/errors.service.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/webhooks/webhook.service.ts",
+      "source": "cases/webhook.service.txt",
+      "clean": false,
+      "split": "holdout"
+    },
+    {
+      "path": "src/orders/orders.api.ts",
+      "source": "cases/orders.api.txt",
+      "clean": false,
+      "split": "tune"
+    },
+    {
+      "path": "src/payments/payments.client.ts",
+      "source": "cases/payments.client.txt",
+      "clean": false,
+      "split": "holdout"
+    },
+    {
+      "path": "src/notify/dispatch.service.ts",
+      "source": "cases/clean-dispatcher.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/accounts/accounts.service.ts",
+      "source": "cases/clean-accounts.service.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/watcher/watcher.service.ts",
+      "source": "cases/clean-watcher.service.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/files/files.service.ts",
+      "source": "cases/clean-files.service.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/math/calendar-safe.ts",
+      "source": "cases/clean-calendar.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/math/stats-safe.ts",
+      "source": "cases/clean-stats.txt",
+      "clean": true,
+      "split": "tune"
+    },
+    {
+      "path": "src/wallet/safe-wallet.service.ts",
+      "source": "cases/clean-wallet.service.txt",
+      "clean": true,
+      "split": "holdout"
+    },
+    {
+      "path": "src/archive/safe-archive.service.ts",
+      "source": "cases/clean-archive.service.txt",
+      "clean": true,
+      "split": "holdout"
+    },
+    {
+      "path": "src/auth/safe-auth.service.ts",
+      "source": "cases/clean-auth.service.txt",
+      "clean": true,
+      "split": "holdout"
+    },
+    {
+      "path": "src/search/lookup.controller.ts",
+      "source": "cases/clean-search.controller.txt",
+      "clean": true,
+      "split": "holdout"
+    },
+    {
+      "path": "src/errors/safe-errors.service.ts",
+      "source": "cases/clean-errors.service.txt",
+      "clean": true,
+      "split": "holdout"
+    },
+    {
+      "path": "src/payments/safe-payments.client.ts",
+      "source": "cases/clean-payments.client.txt",
+      "clean": true,
+      "split": "holdout"
+    }
+  ],
+  "bugs": [
+    {
+      "id": "AW-1",
+      "path": "src/orders/order.service.ts",
+      "category": "async_await",
+      "anchor": "this.repo.save(order);",
+      "span": 0,
+      "explanation": "save() returns a promise that is not awaited, so the status change may not be stored before the email is sent and a failure is lost."
+    },
+    {
+      "id": "AW-2",
+      "path": "src/orders/order.service.ts",
+      "category": "async_await",
+      "anchor": "orderIds.forEach(async (id) => {",
+      "span": 3,
+      "explanation": "forEach does not wait for async callbacks, so refundAll returns 0 before any refund finished and errors are unhandled."
+    },
+    {
+      "id": "AW-3",
+      "path": "src/orders/order.service.ts",
+      "category": "async_await",
+      "anchor": "this.mailer.send(order.userId, 'Your order was archived');",
+      "span": 0,
+      "explanation": "mailer.send is awaited everywhere else but not here, so a send failure becomes an unhandled rejection."
+    },
+    {
+      "id": "RL-1",
+      "path": "src/reports/report.service.ts",
+      "category": "resource_leak",
+      "anchor": "const client = await this.pool.connect();",
+      "span": 4,
+      "explanation": "The pooled connection is never released, so the pool runs out of connections after a few calls."
+    },
+    {
+      "id": "RL-2",
+      "path": "src/reports/report.service.ts",
+      "category": "resource_leak",
+      "anchor": "const conn = await this.pool.connect();",
+      "span": 8,
+      "explanation": "release() runs only on success; when the query throws, the connection is never released."
+    },
+    {
+      "id": "RL-3",
+      "path": "src/reports/report.service.ts",
+      "category": "resource_leak",
+      "anchor": "const fh = await open(path, 'r');",
+      "span": 2,
+      "explanation": "The file handle is never closed, so file descriptors leak."
+    },
+    {
+      "id": "LE-1",
+      "path": "src/billing/pricing.ts",
+      "category": "logic_error",
+      "anchor": "if (subtotal > FREE_SHIPPING_FROM) return 0;",
+      "span": 0,
+      "explanation": "The doc says 50 or more ships free, but > excludes exactly 50 (needs >=)."
+    },
+    {
+      "id": "LE-2",
+      "path": "src/billing/pricing.ts",
+      "category": "logic_error",
+      "anchor": "for (let i = 0; i <= items.length; i++) {",
+      "span": 2,
+      "explanation": "Off-by-one: <= reads items[items.length], which is undefined and throws a TypeError."
+    },
+    {
+      "id": "LE-3",
+      "path": "src/billing/pricing.ts",
+      "category": "logic_error",
+      "anchor": "if (account.active || account.verified) {",
+      "span": 1,
+      "explanation": "The doc says active AND verified, but || lets an account that is only one of them redeem points."
+    },
+    {
+      "id": "RC-1",
+      "path": "src/stock/stock.service.ts",
+      "category": "race_condition",
+      "anchor": "const item = await this.repo.get(sku);",
+      "span": 4,
+      "explanation": "Read-check-write without a lock or atomic update: two requests can both pass the stock check and oversell."
+    },
+    {
+      "id": "RC-2",
+      "path": "src/stock/stock.service.ts",
+      "category": "race_condition",
+      "anchor": "if (!this.cachedToken) {",
+      "span": 2,
+      "explanation": "Concurrent callers all see an empty cache and fetch a token several times (check-then-act on shared state)."
+    },
+    {
+      "id": "RC-3",
+      "path": "src/stock/stock.service.ts",
+      "category": "race_condition",
+      "anchor": "const value = this.current;",
+      "span": 3,
+      "explanation": "Shared counter is read, awaited, then written back; two concurrent calls return the same invoice number."
+    },
+    {
+      "id": "DL-1",
+      "path": "src/users/user-cleanup.service.ts",
+      "category": "data_loss",
+      "anchor": "await this.db.query('DELETE FROM sessions');",
+      "span": 0,
+      "explanation": "DELETE without WHERE removes the sessions of every user, not only the expired ones of userId."
+    },
+    {
+      "id": "DL-2",
+      "path": "src/users/user-cleanup.service.ts",
+      "category": "data_loss",
+      "anchor": "await this.users.clear();",
+      "span": 3,
+      "explanation": "All users are deleted before the import is validated or inserted; a failure part-way loses all data."
+    },
+    {
+      "id": "DL-3",
+      "path": "src/users/user-cleanup.service.ts",
+      "category": "data_loss",
+      "anchor": "await this.users.update(userId, { settings: { theme } });",
+      "span": 0,
+      "explanation": "Replaces the whole settings object, so every other setting of the user is erased (needs a merge)."
+    },
+    {
+      "id": "SEC-1",
+      "path": "src/files/files.controller.ts",
+      "category": "security",
+      "anchor": "WHERE name LIKE '%${term}%'",
+      "span": 0,
+      "explanation": "SQL injection: the user supplied term is concatenated into the query instead of a parameter."
+    },
+    {
+      "id": "SEC-2",
+      "path": "src/files/files.controller.ts",
+      "category": "security",
+      "anchor": "return res.sendFile(join(UPLOAD_DIR, name));",
+      "span": 0,
+      "explanation": "Path traversal: name such as ../../etc/passwd escapes the upload directory."
+    },
+    {
+      "id": "SEC-3",
+      "path": "src/files/files.controller.ts",
+      "category": "security",
+      "anchor": "const file = await this.db.queryOne('SELECT * FROM files WHERE id = $1', [id]);",
+      "span": 1,
+      "explanation": "Missing authorization: any caller can read any file by id; there is no owner check."
+    },
+    {
+      "id": "IV-1",
+      "path": "src/cart/cart.controller.ts",
+      "category": "input_validation",
+      "anchor": "return this.cart.addItem(body.sku, body.quantity);",
+      "span": 0,
+      "explanation": "quantity is not validated: zero, negative, fractional or non-numeric values reach the cart logic."
+    },
+    {
+      "id": "IV-2",
+      "path": "src/cart/cart.controller.ts",
+      "category": "input_validation",
+      "anchor": "const take = Number(limit);",
+      "span": 1,
+      "explanation": "limit is not validated: NaN, negative or huge values are passed to the query (no maximum page size)."
+    },
+    {
+      "id": "IV-3",
+      "path": "src/cart/cart.controller.ts",
+      "category": "input_validation",
+      "anchor": "await writeFile(`/var/app/receipts/${file.originalname}`, file.buffer);",
+      "span": 0,
+      "explanation": "Upload is saved under the client supplied name with no type, size or name check."
+    },
+    {
+      "id": "DB-1",
+      "path": "src/payments/payment.service.ts",
+      "category": "database_transaction",
+      "anchor": "await this.pool.query('UPDATE accounts SET balance = balance - $1",
+      "span": 1,
+      "explanation": "Debit and credit are two separate statements without a transaction; a failure between them loses money."
+    },
+    {
+      "id": "DB-2",
+      "path": "src/payments/payment.service.ts",
+      "category": "database_transaction",
+      "anchor": "const { rows } = await this.pool.query('SELECT * FROM users WHERE id = $1', [order.userId]);",
+      "span": 0,
+      "explanation": "N+1 query: one query per order inside a loop instead of one query for all users."
+    },
+    {
+      "id": "DB-3",
+      "path": "src/payments/payment.service.ts",
+      "category": "database_transaction",
+      "anchor": "await client.query('COMMIT');",
+      "span": 1,
+      "explanation": "COMMIT happens before the credit and invoice updates, so they run outside the transaction and cannot be rolled back."
+    },
+    {
+      "id": "EX-1",
+      "path": "src/sync/sync.service.ts",
+      "category": "exception_handling",
+      "anchor": "} catch (e) {",
+      "span": 1,
+      "explanation": "Empty catch: a missing or broken config file is silently ignored and an empty config is returned."
+    },
+    {
+      "id": "EX-2",
+      "path": "src/sync/sync.service.ts",
+      "category": "exception_handling",
+      "anchor": "this.log.error(err);",
+      "span": 1,
+      "explanation": "The error is only logged and the method still returns true, so the caller thinks the push worked."
+    },
+    {
+      "id": "EX-3",
+      "path": "src/sync/sync.service.ts",
+      "category": "exception_handling",
+      "anchor": "this.bus.on('order.created', async (raw: string) => {",
+      "span": 3,
+      "explanation": "Async event handler with no try/catch: bad JSON or a failed send is an unhandled rejection that can crash the process."
+    },
+    {
+      "id": "API-1",
+      "path": "src/users/users.controller.ts",
+      "category": "api_contract",
+      "anchor": "return { error: 'User not found' };",
+      "span": 0,
+      "explanation": "Documented as 404 but returns HTTP 200 with an error body, breaking the contract for callers."
+    },
+    {
+      "id": "API-2",
+      "path": "src/users/users.controller.ts",
+      "category": "api_contract",
+      "anchor": "return { id: user.id, user_name: user.name, email: user.email } as unknown as UserResponse;",
+      "span": 0,
+      "explanation": "Response field is user_name but the contract (UserResponse) says userName; the cast hides the mismatch."
+    },
+    {
+      "id": "API-3",
+      "path": "src/users/users.controller.ts",
+      "category": "api_contract",
+      "anchor": "const body = await res.json();",
+      "span": 1,
+      "explanation": "The provider response status is never checked, so an error response is read as a result (body.valid is undefined)."
+    },
+    {
+      "id": "AW-4",
+      "path": "src/notify/notify.dispatcher.ts",
+      "category": "async_await",
+      "anchor": "const all = userIds.map(async (id) => this.devices.findByUser(id));",
+      "span": 1,
+      "explanation": "map with an async callback returns promises that are never awaited, so filter reads .length of a promise."
+    },
+    {
+      "id": "AW-5",
+      "path": "src/notify/notify.dispatcher.ts",
+      "category": "async_await",
+      "anchor": "return this.push.send(deviceId, text);",
+      "span": 0,
+      "explanation": "Returned without await inside try/catch, so a rejected send is not caught here and the method returns true."
+    },
+    {
+      "id": "AW-6",
+      "path": "src/notify/notify.dispatcher.ts",
+      "category": "async_await",
+      "anchor": "if (this.devices.exists(deviceId)) {",
+      "span": 0,
+      "explanation": "exists() returns a promise, which is always truthy, so the check never fails."
+    },
+    {
+      "id": "AW-7",
+      "path": "src/notify/notify.dispatcher.ts",
+      "category": "async_await",
+      "anchor": "const devices = this.devices.findByUser(userId);",
+      "span": 1,
+      "explanation": "findByUser is async but is not awaited, so devices is a promise and .length is undefined."
+    },
+    {
+      "id": "AW-8",
+      "path": "src/auth/signup.service.ts",
+      "category": "async_await",
+      "anchor": "const passwordHash = hash(password, 10);",
+      "span": 1,
+      "explanation": "bcrypt hash is not awaited, so a promise is stored as the password hash."
+    },
+    {
+      "id": "AW-9",
+      "path": "src/auth/signup.service.ts",
+      "category": "async_await",
+      "anchor": "const matches = compare(password, user.passwordHash);",
+      "span": 1,
+      "explanation": "bcrypt compare is not awaited, so the promise is always truthy and any password is accepted."
+    },
+    {
+      "id": "AW-10",
+      "path": "src/auth/signup.service.ts",
+      "category": "async_await",
+      "anchor": "writeFile(path, rows.join('\\n'));",
+      "span": 1,
+      "explanation": "writeFile is not awaited, so the path is returned before the file exists and write errors are lost."
+    },
+    {
+      "id": "RL-4",
+      "path": "src/poller/poller.service.ts",
+      "category": "resource_leak",
+      "anchor": "setInterval(() => void this.poll(), 1000);",
+      "span": 0,
+      "explanation": "The timer handle is not kept and never cleared; calling start twice runs two timers and it cannot be stopped."
+    },
+    {
+      "id": "RL-5",
+      "path": "src/poller/poller.service.ts",
+      "category": "resource_leak",
+      "anchor": "this.bus.on(topic, handler);",
+      "span": 0,
+      "explanation": "Listeners are added on every call and never removed, so they pile up (memory leak)."
+    },
+    {
+      "id": "RL-6",
+      "path": "src/poller/poller.service.ts",
+      "category": "resource_leak",
+      "anchor": "this.cache.set(key, value);",
+      "span": 0,
+      "explanation": "The cache has no size limit or expiry, so it grows forever."
+    },
+    {
+      "id": "RL-7",
+      "path": "src/media/thumbnail.service.ts",
+      "category": "resource_leak",
+      "anchor": "const dir = await mkdtemp(join(tmpdir(), 'thumb-'));",
+      "span": 3,
+      "explanation": "The temporary directory and file are never deleted."
+    },
+    {
+      "id": "RL-8",
+      "path": "src/media/thumbnail.service.ts",
+      "category": "resource_leak",
+      "anchor": "const redis = new Redis(process.env.REDIS_URL as string);",
+      "span": 2,
+      "explanation": "A new Redis connection is opened on every call and never closed."
+    },
+    {
+      "id": "RL-9",
+      "path": "src/media/thumbnail.service.ts",
+      "category": "resource_leak",
+      "anchor": "const worker = new Worker('./crunch.js', { workerData: data });",
+      "span": 1,
+      "explanation": "The worker thread is never terminated after it answers."
+    },
+    {
+      "id": "RL-10",
+      "path": "src/media/thumbnail.service.ts",
+      "category": "resource_leak",
+      "anchor": "const file = await open(path, 'r');",
+      "span": 3,
+      "explanation": "The file is not closed when the size check throws."
+    },
+    {
+      "id": "LE-4",
+      "path": "src/math/stats.ts",
+      "category": "logic_error",
+      "anchor": "return sum / (values.length - 1);",
+      "span": 0,
+      "explanation": "Divides by length minus one instead of the length, so the average is wrong (and Infinity for one value)."
+    },
+    {
+      "id": "LE-5",
+      "path": "src/math/stats.ts",
+      "category": "logic_error",
+      "anchor": "return (total / part) * 100;",
+      "span": 0,
+      "explanation": "The operands are swapped: it computes total/part instead of part/total."
+    },
+    {
+      "id": "LE-6",
+      "path": "src/math/stats.ts",
+      "category": "logic_error",
+      "anchor": "return scores.sort().reverse().slice(0, n);",
+      "span": 0,
+      "explanation": "sort() without a comparator sorts numbers as text (10 before 9) and also changes the caller array."
+    },
+    {
+      "id": "LE-7",
+      "path": "src/math/stats.ts",
+      "category": "logic_error",
+      "anchor": "return today.getTime() < lastDay.getTime();",
+      "span": 0,
+      "explanation": "The doc says valid up to and including the last day, but < excludes it (needs <=)."
+    },
+    {
+      "id": "LE-8",
+      "path": "src/math/calendar.ts",
+      "category": "logic_error",
+      "anchor": "return new Date(year, month, 1);",
+      "span": 0,
+      "explanation": "Date months are 0-based but month is 1-12, so this returns the first day of the next month."
+    },
+    {
+      "id": "LE-9",
+      "path": "src/math/calendar.ts",
+      "category": "logic_error",
+      "anchor": "return a > b;",
+      "span": 0,
+      "explanation": "Compares version strings as text, so 1.9.0 is \"newer\" than 1.10.0."
+    },
+    {
+      "id": "LE-10",
+      "path": "src/math/calendar.ts",
+      "category": "logic_error",
+      "anchor": "return Math.floor(total / pageSize);",
+      "span": 0,
+      "explanation": "Rounds down, so a last partial page is not counted (needs Math.ceil)."
+    },
+    {
+      "id": "RC-4",
+      "path": "src/wallet/wallet.service.ts",
+      "category": "race_condition",
+      "anchor": "const wallet = await this.wallets.get(walletId);",
+      "span": 2,
+      "explanation": "Read-modify-write on the balance: two top-ups at once overwrite each other and one is lost."
+    },
+    {
+      "id": "RC-5",
+      "path": "src/wallet/wallet.service.ts",
+      "category": "race_condition",
+      "anchor": "if (!(await this.users.exists(email))) {",
+      "span": 2,
+      "explanation": "Check-then-insert: two sign-ups with the same email can both pass the check."
+    },
+    {
+      "id": "RC-6",
+      "path": "src/wallet/wallet.service.ts",
+      "category": "race_condition",
+      "anchor": "this.currentUser = userId;",
+      "span": 2,
+      "explanation": "Per-request data is stored on a shared singleton and read after an await, so concurrent requests mix up users."
+    },
+    {
+      "id": "RC-7",
+      "path": "src/jobs/batch.service.ts",
+      "category": "race_condition",
+      "anchor": "if (!existsSync(path)) {",
+      "span": 2,
+      "explanation": "Check-then-write (TOCTOU): the file can be created between the check and the write."
+    },
+    {
+      "id": "RC-8",
+      "path": "src/jobs/batch.service.ts",
+      "category": "race_condition",
+      "anchor": "total += await this.prices.priceOf(sku);",
+      "span": 0,
+      "explanation": "total is read before the await and written after it, so concurrent callbacks overwrite each other and updates are lost."
+    },
+    {
+      "id": "RC-9",
+      "path": "src/jobs/batch.service.ts",
+      "category": "race_condition",
+      "anchor": "const job = await this.jobs.next();",
+      "span": 3,
+      "explanation": "Selecting the next job and then marking it running are two steps, so two workers can claim the same job."
+    },
+    {
+      "id": "RC-10",
+      "path": "src/jobs/batch.service.ts",
+      "category": "race_condition",
+      "anchor": "const doc = await this.docs.get(id);",
+      "span": 2,
+      "explanation": "The version argument is ignored: a stale edit overwrites a newer one (lost update)."
+    },
+    {
+      "id": "DL-4",
+      "path": "src/archive/archive.service.ts",
+      "category": "data_loss",
+      "anchor": "await this.prisma.order.updateMany({ data: { archived: true } });",
+      "span": 0,
+      "explanation": "updateMany without where archives the orders of every customer, not only customerId."
+    },
+    {
+      "id": "DL-5",
+      "path": "src/archive/archive.service.ts",
+      "category": "data_loss",
+      "anchor": "await this.db.query('DELETE FROM invoices WHERE id = $1', [invoiceId]);",
+      "span": 0,
+      "explanation": "The doc says invoices must be kept and only marked void, but the row is deleted."
+    },
+    {
+      "id": "DL-6",
+      "path": "src/archive/archive.service.ts",
+      "category": "data_loss",
+      "anchor": "await rm(join(EXPORT_DIR, reportName), { recursive: true, force: true });",
+      "span": 0,
+      "explanation": "An empty or \"..\" report name makes this delete the whole export directory or more."
+    },
+    {
+      "id": "DL-7",
+      "path": "src/archive/archive.service.ts",
+      "category": "data_loss",
+      "anchor": "await this.db.query('ALTER TABLE users DROP COLUMN phone');",
+      "span": 0,
+      "explanation": "The old column is dropped without copying its values to the new one, so all phone numbers are lost."
+    },
+    {
+      "id": "DL-8",
+      "path": "src/logging/logging.service.ts",
+      "category": "data_loss",
+      "anchor": "await writeFile(logPath,",
+      "span": 0,
+      "explanation": "writeFile replaces the file, so each audit line erases the earlier ones (appendFile was meant)."
+    },
+    {
+      "id": "DL-9",
+      "path": "src/logging/logging.service.ts",
+      "category": "data_loss",
+      "anchor": "await this.sink.write(this.buffer);",
+      "span": 5,
+      "explanation": "The buffer is cleared even when the write failed, so those lines are lost."
+    },
+    {
+      "id": "DL-10",
+      "path": "src/logging/logging.service.ts",
+      "category": "data_loss",
+      "anchor": "writeFileSync(SETTINGS_PATH, JSON.stringify(settings));",
+      "span": 0,
+      "explanation": "The settings file is overwritten in place; a crash during the write leaves it empty or half written."
+    },
+    {
+      "id": "SEC-4",
+      "path": "src/auth/auth.service.ts",
+      "category": "security",
+      "anchor": "const secret = process.env.JWT_SECRET ?? 'dev-secret';",
+      "span": 0,
+      "explanation": "Falls back to a known secret, so tokens can be forged when the variable is missing."
+    },
+    {
+      "id": "SEC-5",
+      "path": "src/auth/auth.service.ts",
+      "category": "security",
+      "anchor": "return createHash('md5').update(password).digest('hex');",
+      "span": 0,
+      "explanation": "MD5 without salt is not safe for passwords (use bcrypt, scrypt or argon2)."
+    },
+    {
+      "id": "SEC-6",
+      "path": "src/auth/auth.service.ts",
+      "category": "security",
+      "anchor": "const token = Math.random().toString(36).slice(2);",
+      "span": 0,
+      "explanation": "Math.random is predictable, so reset tokens can be guessed (use crypto.randomBytes)."
+    },
+    {
+      "id": "SEC-7",
+      "path": "src/admin/admin.controller.ts",
+      "category": "security",
+      "anchor": "async deleteUser(@Param('id') id: string) {",
+      "span": 2,
+      "explanation": "Documented as admins only, but any logged-in user can delete any user; there is no role check."
+    },
+    {
+      "id": "SEC-8",
+      "path": "src/admin/admin.controller.ts",
+      "category": "security",
+      "anchor": "return this.users.update(id, body);",
+      "span": 0,
+      "explanation": "The whole body is applied, so a user can set role or other protected fields (mass assignment), and can edit any id."
+    },
+    {
+      "id": "SEC-9",
+      "path": "src/admin/admin.controller.ts",
+      "category": "security",
+      "anchor": "convert ${body.file} out.png",
+      "span": 0,
+      "explanation": "Command injection: a file name such as \"a.png; rm -rf /\" runs shell commands."
+    },
+    {
+      "id": "SEC-10",
+      "path": "src/admin/admin.controller.ts",
+      "category": "security",
+      "anchor": "const res = await fetch(url);",
+      "span": 1,
+      "explanation": "Server-side request forgery: the server fetches any URL the caller gives, including internal addresses."
+    },
+    {
+      "id": "IV-4",
+      "path": "src/profile/profile.controller.ts",
+      "category": "input_validation",
+      "anchor": "return this.profiles.create({ email: body.email, age: body.age, name: body.name });",
+      "span": 0,
+      "explanation": "email, age and name are used as given: no format, range or type checks (negative age, bad email)."
+    },
+    {
+      "id": "IV-5",
+      "path": "src/profile/profile.controller.ts",
+      "category": "input_validation",
+      "anchor": "const criteria = JSON.parse(filter);",
+      "span": 1,
+      "explanation": "User text is parsed and passed to the query without a try/catch or a check of its shape."
+    },
+    {
+      "id": "IV-6",
+      "path": "src/profile/profile.controller.ts",
+      "category": "input_validation",
+      "anchor": "const pattern = new RegExp(term, 'i');",
+      "span": 2,
+      "explanation": "A user supplied pattern is compiled as a regular expression: invalid input throws and a crafted one can freeze the server (ReDoS)."
+    },
+    {
+      "id": "IV-7",
+      "path": "src/search/search.controller.ts",
+      "category": "input_validation",
+      "anchor": "return this.reports.createdAfter(new Date(from));",
+      "span": 0,
+      "explanation": "An invalid date string gives Invalid Date, which is passed to the query without a check."
+    },
+    {
+      "id": "IV-8",
+      "path": "src/search/search.controller.ts",
+      "category": "input_validation",
+      "anchor": "return this.reports.findMany(body.ids);",
+      "span": 0,
+      "explanation": "ids is not checked to be a list of strings or limited in size, so a huge or malformed list reaches the query."
+    },
+    {
+      "id": "IV-9",
+      "path": "src/search/search.controller.ts",
+      "category": "input_validation",
+      "anchor": "res.redirect(next);",
+      "span": 0,
+      "explanation": "Open redirect: next is any URL the caller supplies."
+    },
+    {
+      "id": "IV-10",
+      "path": "src/search/search.controller.ts",
+      "category": "input_validation",
+      "anchor": "const percent = Number(body.percent);",
+      "span": 1,
+      "explanation": "The discount is not checked: NaN, negative or above 100 values are accepted."
+    },
+    {
+      "id": "DB-4",
+      "path": "src/events/event.repository.ts",
+      "category": "database_transaction",
+      "anchor": "const rows = await this.db.query('SELECT * FROM events');",
+      "span": 1,
+      "explanation": "Loads the whole table and filters in JavaScript instead of filtering in the query."
+    },
+    {
+      "id": "DB-5",
+      "path": "src/events/event.repository.ts",
+      "category": "database_transaction",
+      "anchor": "return Promise.all(userIds.map((id) => this.prisma.order.count({ where: { userId: id } })));",
+      "span": 0,
+      "explanation": "One query per user (N+1) instead of one grouped query."
+    },
+    {
+      "id": "DB-6",
+      "path": "src/events/event.repository.ts",
+      "category": "database_transaction",
+      "anchor": "return this.db.query('SELECT id, name FROM events LIMIT $1 OFFSET $2', [limit, offset]);",
+      "span": 0,
+      "explanation": "Pagination without ORDER BY gives an unstable order, so rows repeat or are skipped between pages."
+    },
+    {
+      "id": "DB-7",
+      "path": "src/ledger/ledger.repository.ts",
+      "category": "database_transaction",
+      "anchor": "await client.query('INSERT INTO entries (id, amount) VALUES ($1, $2)', [entryId, amount]);",
+      "span": 3,
+      "explanation": "BEGIN without try/catch/finally: a failed statement leaves the transaction open and the connection is never released or rolled back."
+    },
+    {
+      "id": "DB-8",
+      "path": "src/ledger/ledger.repository.ts",
+      "category": "database_transaction",
+      "anchor": "const { rows } = await client.query('SELECT balance FROM accounts WHERE id = $1', [accountId]);",
+      "span": 2,
+      "explanation": "The balance is read without FOR UPDATE, so two withdrawals can both pass the check and overdraw."
+    },
+    {
+      "id": "DB-9",
+      "path": "src/ledger/ledger.repository.ts",
+      "category": "database_transaction",
+      "anchor": "await this.pool.query('ALTER TABLE users ADD COLUMN plan text NOT NULL');",
+      "span": 0,
+      "explanation": "Adding a NOT NULL column without a default fails on a table that already has rows."
+    },
+    {
+      "id": "DB-10",
+      "path": "src/ledger/ledger.repository.ts",
+      "category": "database_transaction",
+      "anchor": "JOIN orders o ON o.user_id = u.id",
+      "span": 2,
+      "explanation": "Joining two one-to-many tables multiplies rows, so both SUM values are too large."
+    },
+    {
+      "id": "EX-4",
+      "path": "src/errors/errors.service.ts",
+      "category": "exception_handling",
+      "anchor": "throw 'Order not found';",
+      "span": 0,
+      "explanation": "Throws a string instead of an Error, so there is no stack and handlers that read err.message fail."
+    },
+    {
+      "id": "EX-5",
+      "path": "src/errors/errors.service.ts",
+      "category": "exception_handling",
+      "anchor": "return null;",
+      "span": 0,
+      "explanation": "return inside finally overrides the result and swallows any error from the try block."
+    },
+    {
+      "id": "EX-6",
+      "path": "src/errors/errors.service.ts",
+      "category": "exception_handling",
+      "anchor": "throw new Error('Payment failed');",
+      "span": 0,
+      "explanation": "The original error (cause) is dropped, so the real reason is lost."
+    },
+    {
+      "id": "EX-7",
+      "path": "src/errors/errors.service.ts",
+      "category": "exception_handling",
+      "anchor": "process.on('uncaughtException', () => {});",
+      "span": 0,
+      "explanation": "An empty uncaughtException handler hides every crash and leaves the process in an unknown state."
+    },
+    {
+      "id": "EX-8",
+      "path": "src/webhooks/webhook.service.ts",
+      "category": "exception_handling",
+      "anchor": "this.orders.sync().then(() => this.log.log('synced'));",
+      "span": 0,
+      "explanation": "The promise has no catch, so a failed sync is an unhandled rejection that can crash the process."
+    },
+    {
+      "id": "EX-9",
+      "path": "src/webhooks/webhook.service.ts",
+      "category": "exception_handling",
+      "anchor": "res.status(500).json({ error: err.stack });",
+      "span": 0,
+      "explanation": "The stack trace is sent to the client, which leaks internals."
+    },
+    {
+      "id": "EX-10",
+      "path": "src/webhooks/webhook.service.ts",
+      "category": "exception_handling",
+      "anchor": "const body = JSON.parse(raw);",
+      "span": 0,
+      "explanation": "The doc says invalid JSON must give 400, but JSON.parse throws a SyntaxError that becomes a 500."
+    },
+    {
+      "id": "API-4",
+      "path": "src/orders/orders.api.ts",
+      "category": "api_contract",
+      "anchor": "@HttpCode(200)",
+      "span": 1,
+      "explanation": "Documented as responding 201 but forced to 200."
+    },
+    {
+      "id": "API-5",
+      "path": "src/orders/orders.api.ts",
+      "category": "api_contract",
+      "anchor": "return { id: order.id, amount: order.total.toFixed(2) as unknown as number, createdAt: order.createdAt };",
+      "span": 0,
+      "explanation": "amount is a string in the response but the contract says number; the cast hides it."
+    },
+    {
+      "id": "API-6",
+      "path": "src/orders/orders.api.ts",
+      "category": "api_contract",
+      "anchor": "return { items } as Page<OrderDto>;",
+      "span": 0,
+      "explanation": "The response has no total, although Page requires it; the cast hides it."
+    },
+    {
+      "id": "API-7",
+      "path": "src/orders/orders.api.ts",
+      "category": "api_contract",
+      "anchor": "orderBy: { createdAt: 'asc' }",
+      "span": 1,
+      "explanation": "The doc says newest first but the list is sorted oldest first."
+    },
+    {
+      "id": "API-8",
+      "path": "src/payments/payments.client.ts",
+      "category": "api_contract",
+      "anchor": "Authorization: `token ${this.token}`",
+      "span": 0,
+      "explanation": "The provider needs a Bearer token, but the header says \"token\"."
+    },
+    {
+      "id": "API-9",
+      "path": "src/payments/payments.client.ts",
+      "category": "api_contract",
+      "anchor": "await fetch(url, { method: 'POST', body: JSON.stringify(payload) });",
+      "span": 0,
+      "explanation": "No timeout, although the call must not wait longer than 5 seconds; a slow endpoint blocks the caller."
+    },
+    {
+      "id": "API-10",
+      "path": "src/payments/payments.client.ts",
+      "category": "api_contract",
+      "anchor": "await fetch(`${BASE}/refunds/${refundId}`, {",
+      "span": 2,
+      "explanation": "The provider replaces a refund with PUT, but POST is sent."
+    }
+  ]
+}

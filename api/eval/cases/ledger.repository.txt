@@ -1,0 +1,47 @@
+import { Injectable } from '@nestjs/common';
+import { Pool } from 'pg';
+
+@Injectable()
+export class LedgerRepository {
+  constructor(private readonly pool: Pool) {}
+
+  async post(entryId: string, amount: number): Promise<void> {
+    const client = await this.pool.connect();
+    await client.query('BEGIN');
+    await client.query('INSERT INTO entries (id, amount) VALUES ($1, $2)', [entryId, amount]);
+    await client.query('UPDATE totals SET amount = amount + $1', [amount]);
+    await client.query('COMMIT');
+    client.release();
+  }
+
+  async withdraw(accountId: string, amount: number): Promise<void> {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      const { rows } = await client.query('SELECT balance FROM accounts WHERE id = $1', [accountId]);
+      if (rows[0].balance < amount) throw new Error('Insufficient funds');
+      await client.query('UPDATE accounts SET balance = balance - $1 WHERE id = $2', [amount, accountId]);
+      await client.query('COMMIT');
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    } finally {
+      client.release();
+    }
+  }
+
+  async addPlanColumn(): Promise<void> {
+    await this.pool.query('ALTER TABLE users ADD COLUMN plan text NOT NULL');
+  }
+
+  async spendPerUser() {
+    const { rows } = await this.pool.query(
+      `SELECT u.id, SUM(o.total) AS spent, SUM(r.amount) AS refunded
+       FROM users u
+       JOIN orders o ON o.user_id = u.id
+       JOIN refunds r ON r.user_id = u.id
+       GROUP BY u.id`,
+    );
+    return rows;
+  }
+}

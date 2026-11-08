@@ -1,0 +1,22 @@
+import { BadRequestException, Controller, Get, Param, Res } from '@nestjs/common';
+import { resolve, sep } from 'node:path';
+import { Database } from '../db/database.js';
+
+const UPLOAD_DIR = resolve('/var/app/uploads');
+
+@Controller('downloads')
+export class DownloadController {
+  constructor(private readonly db: Database) {}
+
+  @Get('search/:term')
+  async search(@Param('term') term: string) {
+    return this.db.query('SELECT id, name FROM files WHERE name LIKE $1', [`%${term}%`]);
+  }
+
+  @Get('file/:name')
+  download(@Param('name') name: string, @Res() res: { sendFile(path: string): void }) {
+    const full = resolve(UPLOAD_DIR, name);
+    if (!full.startsWith(UPLOAD_DIR + sep)) throw new BadRequestException('Invalid file name');
+    res.sendFile(full);
+  }
+}

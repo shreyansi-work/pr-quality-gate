@@ -1,0 +1,25 @@
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { ProfileRepository } from './profile.repository.js';
+
+@Controller('profile')
+export class ProfileController {
+  constructor(private readonly profiles: ProfileRepository) {}
+
+  @Post()
+  async create(@Body() body: { email: string; age: number; name: string }) {
+    return this.profiles.create({ email: body.email, age: body.age, name: body.name });
+  }
+
+  @Get('filter')
+  async filter(@Query('filter') filter: string) {
+    const criteria = JSON.parse(filter);
+    return this.profiles.find(criteria);
+  }
+
+  @Get('search')
+  async search(@Query('term') term: string) {
+    const pattern = new RegExp(term, 'i');
+    const all = await this.profiles.all();
+    return all.filter((p) => pattern.test(p.name));
+  }
+}

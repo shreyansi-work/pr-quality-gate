@@ -1,0 +1,47 @@
+import { Injectable } from '@nestjs/common';
+import { existsSync, writeFileSync } from 'node:fs';
+import { JobRepository } from './job.repository.js';
+import { DocumentRepository } from './document.repository.js';
+import { PriceClient } from './price.client.js';
+
+@Injectable()
+export class BatchService {
+  constructor(
+    private readonly jobs: JobRepository,
+    private readonly docs: DocumentRepository,
+    private readonly prices: PriceClient,
+  ) {}
+
+  saveOnce(path: string, data: string): void {
+    if (!existsSync(path)) {
+      writeFileSync(path, data);
+    }
+  }
+
+  async total(skus: string[]): Promise<number> {
+    let total = 0;
+    await Promise.all(
+      skus.map(async (sku) => {
+        total += await this.prices.priceOf(sku);
+      }),
+    );
+    return total;
+  }
+
+  async runNext(workerId: string): Promise<void> {
+    const job = await this.jobs.next();
+    if (!job) return;
+    await this.jobs.markRunning(job.id, workerId);
+    await this.execute(job.id);
+  }
+
+  async rename(id: string, name: string, version: number): Promise<void> {
+    const doc = await this.docs.get(id);
+    doc.name = name;
+    await this.docs.save(doc);
+  }
+
+  private async execute(id: string): Promise<void> {
+    await this.jobs.markDone(id);
+  }
+}

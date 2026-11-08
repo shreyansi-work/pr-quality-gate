@@ -1,0 +1,29 @@
+import { Body, Controller, Post, Query, Get, UploadedFile } from '@nestjs/common';
+import { writeFile } from 'node:fs/promises';
+import { CartService } from './cart.service.js';
+import { Database } from '../db/database.js';
+
+@Controller('cart')
+export class CartController {
+  constructor(
+    private readonly cart: CartService,
+    private readonly db: Database,
+  ) {}
+
+  @Post('add')
+  async add(@Body() body: { sku: string; quantity: number }) {
+    return this.cart.addItem(body.sku, body.quantity);
+  }
+
+  @Get('orders')
+  async orders(@Query('limit') limit: string) {
+    const take = Number(limit);
+    return this.db.query('SELECT * FROM orders ORDER BY id DESC LIMIT $1', [take]);
+  }
+
+  @Post('receipt')
+  async uploadReceipt(@UploadedFile() file: { originalname: string; buffer: Buffer }) {
+    await writeFile(`/var/app/receipts/${file.originalname}`, file.buffer);
+    return { saved: true };
+  }
+}

@@ -1,0 +1,36 @@
+import { Injectable } from '@nestjs/common';
+import { rm } from 'node:fs/promises';
+import { join } from 'node:path';
+import { PrismaClient } from '@prisma/client';
+import { Database } from '../db/database.js';
+
+const EXPORT_DIR = '/var/app/exports';
+
+@Injectable()
+export class ArchiveService {
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly db: Database,
+  ) {}
+
+  /** Archive the orders of one customer. */
+  async archiveCustomer(customerId: string): Promise<void> {
+    await this.prisma.order.updateMany({ data: { archived: true } });
+  }
+
+  /** Invoices must be kept for seven years, so a removed invoice is only marked void. */
+  async removeInvoice(invoiceId: string): Promise<void> {
+    await this.db.query('DELETE FROM invoices WHERE id = $1', [invoiceId]);
+  }
+
+  /** Delete the export folder of one report. */
+  async clearExport(reportName: string): Promise<void> {
+    await rm(join(EXPORT_DIR, reportName), { recursive: true, force: true });
+  }
+
+  /** Rename the phone column to mobile. */
+  async renamePhoneColumn(): Promise<void> {
+    await this.db.query('ALTER TABLE users ADD COLUMN mobile text');
+    await this.db.query('ALTER TABLE users DROP COLUMN phone');
+  }
+}

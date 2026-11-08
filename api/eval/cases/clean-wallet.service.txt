@@ -1,0 +1,26 @@
+import { Injectable } from '@nestjs/common';
+import { Pool } from 'pg';
+
+@Injectable()
+export class SafeWalletService {
+  constructor(private readonly pool: Pool) {}
+
+  async topUp(walletId: string, amount: number): Promise<void> {
+    await this.pool.query('UPDATE wallets SET balance = balance + $1 WHERE id = $2', [amount, walletId]);
+  }
+
+  async signUp(email: string): Promise<boolean> {
+    const res = await this.pool.query('INSERT INTO users (email) VALUES ($1) ON CONFLICT (email) DO NOTHING', [email]);
+    return res.rowCount === 1;
+  }
+
+  async claimNextJob(workerId: string) {
+    const { rows } = await this.pool.query(
+      `UPDATE jobs SET worker = $1, state = 'running'
+       WHERE id = (SELECT id FROM jobs WHERE state = 'queued' ORDER BY id FOR UPDATE SKIP LOCKED LIMIT 1)
+       RETURNING id`,
+      [workerId],
+    );
+    return rows[0] ?? null;
+  }
+}

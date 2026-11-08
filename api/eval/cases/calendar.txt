@@ -1,0 +1,20 @@
+/** month is 1 to 12. Returns the first day of that month. */
+export function firstDay(year: number, month: number): Date {
+  return new Date(year, month, 1);
+}
+
+/** True when version a is newer than version b, for example 1.10.0 is newer than 1.9.0. */
+export function isNewer(a: string, b: string): boolean {
+  return a > b;
+}
+
+/** How many pages `total` items need when each page holds `pageSize`. */
+export function pageCount(total: number, pageSize: number): number {
+  return Math.floor(total / pageSize);
+}
+
+/** month is 1 to 12. */
+export function label(month: number): string {
+  const names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return names[month - 1];
+}

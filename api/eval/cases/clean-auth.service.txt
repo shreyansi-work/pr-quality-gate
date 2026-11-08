@@ -1,0 +1,30 @@
+import { Injectable } from '@nestjs/common';
+import { randomBytes } from 'node:crypto';
+import { hash } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
+import { UserRepository } from './user.repository.js';
+
+@Injectable()
+export class SafeAuthService {
+  private readonly secret: string;
+
+  constructor(private readonly users: UserRepository) {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) throw new Error('JWT_SECRET is required');
+    this.secret = secret;
+  }
+
+  issueToken(userId: string): string {
+    return sign({ sub: userId }, this.secret, { expiresIn: '1h' });
+  }
+
+  hashPassword(password: string): Promise<string> {
+    return hash(password, 12);
+  }
+
+  async createResetToken(email: string): Promise<string> {
+    const token = randomBytes(32).toString('hex');
+    await this.users.saveResetToken(email, await hash(token, 10));
+    return token;
+  }
+}

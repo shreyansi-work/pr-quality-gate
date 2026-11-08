@@ -1,0 +1,24 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+import { Database } from '../db/database.js';
+
+@Injectable()
+export class EventRepository {
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly db: Database,
+  ) {}
+
+  async recentErrors(since: Date) {
+    const rows = await this.db.query('SELECT * FROM events');
+    return rows.filter((r: { level: string; at: Date }) => r.level === 'error' && r.at > since);
+  }
+
+  async orderCounts(userIds: string[]) {
+    return Promise.all(userIds.map((id) => this.prisma.order.count({ where: { userId: id } })));
+  }
+
+  async page(limit: number, offset: number) {
+    return this.db.query('SELECT id, name FROM events LIMIT $1 OFFSET $2', [limit, offset]);
+  }
+}

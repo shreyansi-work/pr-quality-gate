@@ -1,0 +1,23 @@
+import { Injectable } from '@nestjs/common';
+import { Pool } from 'pg';
+
+@Injectable()
+export class CounterService {
+  constructor(private readonly pool: Pool) {}
+
+  /** One statement, so two requests at the same time can never get the same number. */
+  async nextInvoiceNumber(): Promise<number> {
+    const { rows } = await this.pool.query(
+      "UPDATE counters SET value = value + 1 WHERE name = 'invoice' RETURNING value",
+    );
+    return Number(rows[0].value);
+  }
+
+  async reserve(sku: string, qty: number): Promise<boolean> {
+    const res = await this.pool.query(
+      'UPDATE stock SET amount = amount - $1 WHERE sku = $2 AND amount >= $1',
+      [qty, sku],
+    );
+    return res.rowCount === 1;
+  }
+}

@@ -1,0 +1,37 @@
+import { Injectable } from '@nestjs/common';
+import { Pool } from 'pg';
+
+@Injectable()
+export class PaymentService {
+  constructor(private readonly pool: Pool) {}
+
+  async transfer(from: string, to: string, amount: number): Promise<void> {
+    await this.pool.query('UPDATE accounts SET balance = balance - $1 WHERE id = $2', [amount, from]);
+    await this.pool.query('UPDATE accounts SET balance = balance + $1 WHERE id = $2', [amount, to]);
+  }
+
+  async withUsers(orders: { id: string; userId: string }[]) {
+    const result = [];
+    for (const order of orders) {
+      const { rows } = await this.pool.query('SELECT * FROM users WHERE id = $1', [order.userId]);
+      result.push({ ...order, user: rows[0] });
+    }
+    return result;
+  }
+
+  async payInvoice(invoiceId: string, from: string, to: string, amount: number): Promise<void> {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      await client.query('UPDATE accounts SET balance = balance - $1 WHERE id = $2', [amount, from]);
+      await client.query('COMMIT');
+      await client.query('UPDATE accounts SET balance = balance + $1 WHERE id = $2', [amount, to]);
+      await client.query("UPDATE invoices SET status = 'PAID' WHERE id = $1", [invoiceId]);
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    } finally {
+      client.release();
+    }
+  }
+}

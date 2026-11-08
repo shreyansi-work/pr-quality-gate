@@ -1,0 +1,15 @@
+diff --git a/src/auth/auth.service.ts b/src/auth/auth.service.ts
+new file mode 100644
+--- /dev/null
++++ b/src/auth/auth.service.ts
+@@ -0,0 +1,11 @@
++const secret = process.env.JWT_SECRET;
++
++export async function login(email: string) {
++  const user = await findUser(email);
++  if (!user) throw new UnauthorizedException();
++  const name = (user.name ?? '').trim();
++  await this.audit.log(user.id);
++  return sign({ name }, secret);
++}
++

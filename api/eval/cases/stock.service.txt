@@ -1,0 +1,35 @@
+import { Injectable } from '@nestjs/common';
+import { StockRepository } from './stock.repository.js';
+import { AuthClient } from '../auth/auth.client.js';
+
+@Injectable()
+export class StockService {
+  private cachedToken: string | null = null;
+  private current = 0;
+
+  constructor(
+    private readonly repo: StockRepository,
+    private readonly auth: AuthClient,
+  ) {}
+
+  async reserve(sku: string, qty: number): Promise<void> {
+    const item = await this.repo.get(sku);
+    if (item.stock < qty) throw new Error('Not enough stock');
+    item.stock -= qty;
+    await this.repo.save(item);
+  }
+
+  async getToken(): Promise<string> {
+    if (!this.cachedToken) {
+      this.cachedToken = await this.auth.fetchToken();
+    }
+    return this.cachedToken;
+  }
+
+  async nextInvoiceNumber(): Promise<number> {
+    const value = this.current;
+    await this.repo.persistCounter(value + 1);
+    this.current = value + 1;
+    return this.current;
+  }
+}
