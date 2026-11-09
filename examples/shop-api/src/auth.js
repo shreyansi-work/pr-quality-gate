@@ -25,3 +25,8 @@ export async function currentUser(token) {
   const user = await findUser(userId);
   return user && user.active ? user : null;
 }
+
+export async function profileEmail(userId) {
+  const user = await findUser(userId);
+  return user.email.toLowerCase();
+}
