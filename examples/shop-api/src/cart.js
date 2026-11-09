@@ -14,3 +14,14 @@ export async function cartTotal(userId, prices) {
   const cart = await loadCart(userId);
   return cart.items.reduce((sum, i) => sum + (prices[i.sku] ?? 0) * i.qty, 0);
 }
+
+const CODES = { SAVE10: 0.1, SAVE20: 0.2 };
+
+export async function applyDiscount(userId, code) {
+  const cart = await loadCart(userId);
+  const rate = CODES[code];
+  if (!rate) throw new Error('unknown code');
+  cart.discount = rate;
+  saveCart(userId, cart);
+  return cart;
+}
