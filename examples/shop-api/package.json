@@ -1,0 +1,8 @@
+{
+  "name": "shop-api-example",
+  "version": "1.0.0",
+  "description": "Small sample service used to demo PR Quality Gate reviews",
+  "type": "module",
+  "scripts": { "test": "node --test" },
+  "license": "MIT"
+}
